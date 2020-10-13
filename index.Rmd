@@ -94,7 +94,7 @@ demo_tbl
 
 ## Outcome Measurements 
 
-### GAS Hierarchy - Increase the ability to complete weekly reading assignments for Science and Health classes
+### GAS Hierarchy - Increase weekly assignment completion 
 
 ```{r, include=FALSE}
 head(gas)
@@ -474,7 +474,7 @@ status_plot_all <- ggplot(status_all, aes(session, status)) +
   theme_classic() +
   theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
   labs(x = "Session",
-       y = "Percentage of Weekly Reading Assignments\n Completed for Health and Science Classes",
+       y = "Percentage of Weekly Assignments Completed",
        title = "Status Tracking Goal") 
 
 status_plot_all
