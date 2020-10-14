@@ -112,7 +112,7 @@ gas_tbl <- gas %>%
     width = 500)
 ```
 
-```{r, include=TRUE}
+```{r, include=TRUE, fig.height=8}
 gas_tbl
 ```
 
@@ -204,18 +204,56 @@ brief_parent_plot <- ggplot(brief_parent_tidy, aes(`Scale/Index`, `Response`)) +
        subtitle = "Scores Greater than 65 are Considered Clinically Significant")
 
 brief_parent_plot
+
+head(brief_parent)
+
+brief_tbl <- function(df) {
+  df %>% 
+  reactable(
+    columns = list(
+      `Scale/Index` = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center"),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+}
+  
+brief_tbl(brief_self)
 ```
 
-#### BRIEF-2 Self-Report
+#### BRIEF-2 Self-Report Plot
 
 ```{r, include=TRUE, fig.height=8, fig.width=10}
 brief_self_plot
 ```
 
-#### BRIEF-2  Parent-Report
+#### BRIEF-2 Self-Report Table
+
+```{r, include=TRUE, fig.height=8}
+brief_tbl(brief_self)
+```
+
+#### BRIEF-2 Parent-Report Plot
 
 ```{r, include=TRUE, fig.height=8, fig.width=10}
 brief_parent_plot
+```
+
+#### BRIEF-2 Parent-Report Table
+
+```{r, include=TRUE, fig.height=8}
+brief_tbl(brief_parent)
 ```
 
 ### CLASS {.tabset .tabset-fade .tabset-pills}
@@ -381,9 +419,36 @@ class_parent_2_plot <- ggplot(class_parent_2_tidy, aes(`Question`, `Response`)) 
        subtitle = "Questions 15-20")
 
 class_parent_2_plot
+
+head(class_parent_1)
+
+class_self_all <- bind_rows(class_self_1, class_self_2)
+class_parent_all <- bind_rows(class_parent_1, class_parent_2)
+
+class_tbl <- function(df) {
+  df %>% 
+  reactable(
+    columns = list(
+      `Question` = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center"),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+}
 ```
 
-#### CLASS Self 1
+#### CLASS Self 1 
 
 ```{r, include=TRUE, fig.height=8, fig.width=10}
 class_self_1_plot
@@ -393,6 +458,12 @@ class_self_1_plot
 
 ```{r, include=TRUE, fig.height=8, fig.width=11}
 class_self_2_plot
+```
+
+#### ClASS Self Table
+
+```{r, include=TRUE, fig.height=8}
+class_tbl(class_self_all)
 ```
 
 #### CLASS Parent 1
@@ -405,6 +476,12 @@ class_parent_1_plot
 
 ```{r, include=TRUE, fig.height=8, fig.width=11}
 class_parent_2_plot
+```
+
+#### ClASS Parent Table
+
+```{r, include=TRUE, fig.height=8}
+class_tbl(class_parent_all)
 ```
 
 ### PCSS
