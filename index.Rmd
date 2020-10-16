@@ -230,6 +230,79 @@ brief_tbl <- function(df) {
 }
   
 brief_tbl(brief_self)
+
+
+brief_self_2 <- brief_self %>% 
+  filter(`Scale/Index` != "Initiate Scale",
+         `Scale/Index` != "Organization Scale")
+
+
+
+brief_self_2 %>% 
+  reactable(
+    columns = list(
+      `Scale/Index` = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center",
+                                    style = function(value) {
+                                      if (value >= 65) {
+                                        color <- "#e00000"
+                                      } else if (value < 65) {
+                                        color <- "#008000"
+                                      } else {
+                                        color <- "#777"
+                                      } 
+                                       list(color = color, fontWeight = "bold")
+                                    }
+                                      ),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+
+brief_color_tbl <- function(df) {
+  df %>% 
+  reactable(
+    columns = list(
+      `Scale/Index` = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center",
+                                    style = function(value) {
+                                      if (value >= 65) {
+                                        color <- "#e00000"
+                                      } else if (value < 65) {
+                                        color <- "#008000"
+                                      } else {
+                                        color <- "#777"
+                                      } 
+                                       list(color = color, fontWeight = "bold")
+                                    }
+                                      ),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+}
+
+brief_color_tbl(brief_self_2)
 ```
 
 #### BRIEF-2 Self-Report Plot
@@ -241,7 +314,7 @@ brief_self_plot
 #### BRIEF-2 Self-Report Table
 
 ```{r, include=TRUE, fig.height=8}
-brief_tbl(brief_self)
+brief_color_tbl(brief_self_2)
 ```
 
 #### BRIEF-2 Parent-Report Plot
@@ -253,7 +326,7 @@ brief_parent_plot
 #### BRIEF-2 Parent-Report Table
 
 ```{r, include=TRUE, fig.height=8}
-brief_tbl(brief_parent)
+brief_color_tbl(brief_parent)
 ```
 
 ### CLASS {.tabset .tabset-fade .tabset-pills}
