@@ -303,6 +303,37 @@ brief_color_tbl <- function(df) {
 }
 
 brief_color_tbl(brief_self_2)
+
+
+orange_pal <- function(x) rgb(colorRamp(c("#ffe4cc", "#ffb54d"))(x), maxColorValue = 255)
+
+brief_color_tbl_2 <- function(df) {
+  df %>% 
+  reactable(
+    columns = list(
+      `Scale/Index` = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center",
+                                    style = function(value) {
+                                      normalized <- (value - min(brief_self_2$`Pre Baseline Phase`)) / (max(brief_self_2$`Pre Baseline Phase`) - min(brief_self_2$`Pre Baseline Phase`))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    }
+                                      ),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+}
 ```
 
 #### BRIEF-2 Self-Report Plot
@@ -311,10 +342,16 @@ brief_color_tbl(brief_self_2)
 brief_self_plot
 ```
 
-#### BRIEF-2 Self-Report Table
+#### BRIEF-2 Self-Report Table Version 1
 
 ```{r, include=TRUE, fig.height=8}
 brief_color_tbl(brief_self_2)
+```
+
+#### BRIEF-2 Self-Report Table Version 2
+
+```{r, include=TRUE, fig.height=8}
+brief_color_tbl_2(brief_self_2)
 ```
 
 #### BRIEF-2 Parent-Report Plot
@@ -323,10 +360,40 @@ brief_color_tbl(brief_self_2)
 brief_parent_plot
 ```
 
-#### BRIEF-2 Parent-Report Table
+#### BRIEF-2 Parent-Report Table Version 1
 
 ```{r, include=TRUE, fig.height=8}
 brief_color_tbl(brief_parent)
+```
+
+#### BRIEF-2 Parent-Report Table Version 2
+
+```{r, include=TRUE, fig.height=8}
+brief_parent %>% 
+  reactable(
+    columns = list(
+      `Scale/Index` = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center",
+                                    style = function(value) {
+                                      normalized <- (value - min(brief_parent$`Pre Baseline Phase`)) / (max(brief_parent$`Pre Baseline Phase`) - min(brief_parent$`Pre Baseline Phase`))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    }
+                                      ),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
 ```
 
 ### CLASS {.tabset .tabset-fade .tabset-pills}
@@ -557,7 +624,7 @@ class_parent_2_plot
 class_tbl(class_parent_all)
 ```
 
-### PCSS
+### PCSS {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
 head(pcss)
@@ -581,11 +648,80 @@ pcss_table <- pcss %>%
     searchable = TRUE,
     height = 600,
     width = 500)
+
+pcss_items <- pcss[1:22, ]
+pcss_total_cluster <- pcss[23:29, ]
+
+pcss_items_tbl <- pcss_items %>% 
+  reactable(
+    columns = list(
+      Symptom = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center",
+                                    style = function(value) {
+                                      normalized <- (value - min(pcss_items$`Pre Baseline Phase`)) / (max(pcss_items$`Pre Baseline Phase` - min(pcss_items$`Pre Baseline Phase`)))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    }),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+
+pcss_cluster_tbl <- pcss_total_cluster %>% 
+  reactable(
+    columns = list(
+      Symptom = colDef(align = "center"),
+      `Pre Baseline Phase` = colDef(name = "Pre Baseline Phase",
+                                    align = "center",
+                                    style = function(value) {
+                                      normalized <- (value - min(pcss_total_cluster$`Pre Baseline Phase`)) / (max(pcss_total_cluster$`Pre Baseline Phase` - min(pcss_total_cluster$`Pre Baseline Phase`)))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    }),
+      `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
+                                        align = "center"),
+      `Post Treatment` = colDef(name = "Post Treatment",
+                                align = "center")),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE,
+    height = 600,
+    width = 500)
+
 ```
+
+#### All Scores
 
 ```{r pcss table, include=TRUE, fig.height=8}
 pcss_table
 ```
+
+#### Symptom Scores
+
+```{r, include=TRUE, fig.height=8}
+pcss_items_tbl
+```
+
+#### Total and Cluster Scores
+
+```{r, include=TRUE, fig.height=8}
+pcss_cluster_tbl
+```
+
 
 ## Repeated Measurements 
 
