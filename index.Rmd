@@ -13,10 +13,16 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
 ```{r setup 1, include=FALSE}
+
+#devtools::install_github("wilkelab/cowplot")
+#install.packages("colorspace", repos = "http://R-Forge.R-project.org") 
+
+#devtools::install_github("clauswilke/colorblindr") 
+
+
 library(tidyverse)
 library(rio)
 library(here)
-library(colorblindr)
 library(gghighlight)
 library(forcats)
 library(ggrepel)
@@ -27,6 +33,7 @@ library(reactable)
 library(plotly)
 library(SCVA)
 library(patchwork)
+library(colorblindr)
 
 
 theme_set(theme_minimal(15) +
