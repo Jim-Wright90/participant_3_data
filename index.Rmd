@@ -75,6 +75,18 @@ gas <- import(here("data", "GOZO_gas.xlsx"),
 
 demo <- import(here("data", "GOZO_demo.xlsx"),
                setclass = "tbl_df")
+
+assignments <- import(here("data", "GOZO_assignment_count.xlsx"),
+               setclass = "tbl_df") 
+
+head(assignments)
+
+assignments <- assignments %>% 
+  mutate(completion_percentage = completed / total)
+
+head(assignments)
+
+
 ```
 
 ## Demographic Information 
@@ -730,7 +742,7 @@ pcss_cluster_tbl
 ```
 
 
-## Repeated Measurements 
+## Repeated Measurements {.tabset .tabset-fade .tabset-pills}
 
 ### Status Tracking Measurement
 
@@ -776,4 +788,48 @@ status_plot_all
 
 ```{r, include=TRUE}
 status_plot_all
+```
+
+### Assignment Count
+
+```{r, include=FALSE}
+head(assignments)
+
+assignment_plot <- ggplot(assignments, aes(x = session)) +
+  geom_col(aes(y = completed), alpha = 0.8, fill = "cornflowerblue") +
+  geom_col(aes(y = total), alpha = 0.3, fill = "red") +
+  theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
+  labs(x = "Session",
+       y = "Assignments Completed out of Total Assignments",
+       title = "Weekly Assignment Completion")
+
+assignments_tidy <- assignments %>% 
+  pivot_longer(
+    cols = c(2:3),
+    names_to = "parameter",
+    values_to = "value"
+  )
+
+head(assignments_tidy)
+
+ggplot(assignments_tidy, aes(session, value, 
+                             fill = parameter,
+                             color = parameter, 
+                             alpha = parameter)) +
+  geom_col() +
+  geom_text(aes(label = value),
+            color = "black") +
+  scale_colour_manual(values=c("cornflowerblue", "red")) +
+  scale_fill_manual(values=c("cornflowerblue", "red")) +
+  scale_alpha_manual(values=c(.3, .8)) +
+  theme(legend.title = element_blank(),
+        plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
+  labs(x = "Session",
+       y = "Assignments Completed out of Total Assignments",
+       title = "Weekly Assignment Completion")
+
+```
+
+```{r, include=TRUE}
+assignment_plot
 ```
