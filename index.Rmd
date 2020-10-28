@@ -812,12 +812,11 @@ assignments_tidy <- assignments %>%
 
 head(assignments_tidy)
 
-ggplot(assignments_tidy, aes(session, value, 
-                             fill = parameter,
-                             color = parameter, 
-                             alpha = parameter)) +
-  geom_col() +
+assignment_plot2 <- ggplot(assignments_tidy, aes(session, value)) +
+  geom_col(aes(fill = parameter),
+           position = position_stack(reverse = TRUE)) +
   geom_text(aes(label = value),
+            position = position_stack(vjust = 0.5),
             color = "black") +
   scale_colour_manual(values=c("cornflowerblue", "red")) +
   scale_fill_manual(values=c("cornflowerblue", "red")) +
@@ -832,4 +831,10 @@ ggplot(assignments_tidy, aes(session, value,
 
 ```{r, include=TRUE}
 assignment_plot
+```
+
+### Assignment Count 2
+
+```{r, include=TRUE}
+assignment_plot2
 ```
