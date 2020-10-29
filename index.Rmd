@@ -827,14 +827,43 @@ assignment_plot2 <- ggplot(assignments_tidy, aes(session, value)) +
        y = "Assignments Completed out of Total Assignments",
        title = "Weekly Assignment Completion")
 
+head(assignments)
+
+assignments_tbl <- assignments %>% 
+  reactable(
+    columns = list(
+      session = colDef(name = "Session",
+                       align = "center"),
+      completed = colDef(name = "Assignments Completed",
+                         align = "center"),
+      total = colDef(name = "Total Assignments",
+                     align = "center"),
+      completion_percentage = colDef(name = "Completion Percentage",
+                                     align = "center",
+                                     format = colFormat(percent = TRUE, digits = 2))),
+    pagination = FALSE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    height = 600,
+    width = 500)
+
 ```
 
-```{r, include=TRUE}
+```{r, include=TRUE, fig.height=8, fig.width=10}
 assignment_plot
 ```
 
 ### Assignment Count 2
 
-```{r, include=TRUE}
+```{r, include=TRUE, fig.height=8, fig.width=10}
 assignment_plot2
+```
+
+### Assignment Count Table
+
+```{r, include=TRUE, fig.height=8, fig.width=10}
+assignments_tbl
 ```
