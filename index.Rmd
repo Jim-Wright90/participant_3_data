@@ -780,7 +780,8 @@ status_plot_all <- ggplot(status_all, aes(session, status)) +
   theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
   labs(x = "Session",
        y = "Percentage of Weekly Assignments Completed",
-       title = "Status Tracking Goal") 
+       title = "Status Tracking Goal",
+       caption = "Session 6 corresponded to the beginning of a new term for the participant") 
 
 status_plot_all
 
