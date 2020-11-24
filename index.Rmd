@@ -275,7 +275,18 @@ brief_self_2 %>%
                                     }
                                       ),
       `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
-                                        align = "center"),
+                                    align = "center",
+                                    style = function(value) {
+                                      if (value >= 65) {
+                                        color <- "#e00000"
+                                      } else if (value < 65) {
+                                        color <- "#008000"
+                                      } else {
+                                        color <- "#777"
+                                      } 
+                                       list(color = color, fontWeight = "bold")
+                                    }
+                                      ),
       `Post Treatment` = colDef(name = "Post Treatment",
                                 align = "center")),
     pagination = FALSE,
@@ -307,7 +318,18 @@ brief_color_tbl <- function(df) {
                                     }
                                       ),
       `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
-                                        align = "center"),
+                                        align = "center",
+                                        style = function(value) {
+                                      if (value >= 65) {
+                                        color <- "#e00000"
+                                      } else if (value < 65) {
+                                        color <- "#008000"
+                                      } else {
+                                        color <- "#777"
+                                      } 
+                                       list(color = color, fontWeight = "bold")
+                                    }
+                                      ),
       `Post Treatment` = colDef(name = "Post Treatment",
                                 align = "center")),
     pagination = FALSE,
@@ -340,7 +362,13 @@ brief_color_tbl_2 <- function(df) {
                                     }
                                       ),
       `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
-                                        align = "center"),
+                                        align = "center",
+                                        style = function(value) {
+                                      normalized <- (value - min(brief_self_2$`Pre Experimental Phase`)) / (max(brief_self_2$`Pre Experimental Phase`) - min(brief_self_2$`Pre Experimental Phase`))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    }
+                                      ),
       `Post Treatment` = colDef(name = "Post Treatment",
                                 align = "center")),
     pagination = FALSE,
@@ -401,7 +429,13 @@ brief_parent %>%
                                     }
                                       ),
       `Pre Experimental Phase` = colDef(name = "Pre Experimental Phase",
-                                        align = "center"),
+                                        align = "center",
+                                        style = function(value) {
+                                      normalized <- (value - min(brief_parent$`Pre Experimental Phase`)) / (max(brief_parent$`Pre Experimental Phase`) - min(brief_parent$`Pre Experimental Phase`))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    }
+                                      ),
       `Post Treatment` = colDef(name = "Post Treatment",
                                 align = "center")),
     pagination = FALSE,
