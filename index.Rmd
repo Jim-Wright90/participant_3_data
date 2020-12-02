@@ -86,6 +86,9 @@ assignments <- assignments %>%
 
 head(assignments)
 
+strategy <- import(here("data", "GOZO_strategy.xlsx"),
+                   setclass = "tbl_df")
+
 
 ```
 
@@ -795,22 +798,24 @@ pcss_cluster_tbl
 ```{r, include=FALSE}
 head(status)
 
-#status_plot <- ggplot() +
-  #geom_line(data = status, aes(x = session, y = bl)) +
-  #geom_point(data = status, aes(x = session, y = bl), size = 2) +
-  #geom_line(data = status, aes(x = session, y = tx)) +
-  #geom_point(data = status, aes(x = session, y = tx), size = 2) +
-  #scale_x_continuous(limits = c(0, 13),
-                     #breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)) +
-  #scale_y_continuous(limits = c(0, 60),
-                     #breaks = c(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)) +
-  #theme_classic() +
-  #theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
-  #labs(x = "Session",
-       #y = "Number of Minutes",
-       #title = "Number of Minutes per Class Engaged in Online Spanish Lecture") 
+status_plot <- ggplot() +
+  geom_line(data = status, aes(x = session, y = bl)) +
+  geom_point(data = status, aes(x = session, y = bl), size = 2) +
+  geom_line(data = status, aes(x = session, y = tx)) +
+  geom_point(data = status, aes(x = session, y = tx), size = 2) +
+  scale_x_continuous(limits = c(0, 13),
+                     breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)) +
+  scale_y_continuous(limits = c(0, 100),
+                     breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                     labels = function(x) paste0(x, "%")) +
+  theme_classic() +
+  theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
+  labs(x = "Session",
+       y = "Percentage of Weekly Assignments Completed",
+       title = "Status Tracking Goal",
+       caption = "Session 6 corresponded to the beginning of a new term for the participant") 
 
-#status_plot
+status_plot
 
 head(status_all)
 
@@ -834,7 +839,7 @@ status_plot_all
 ```
 
 ```{r, include=TRUE}
-status_plot_all
+status_plot
 ```
 
 #### Assignment Count
@@ -924,55 +929,76 @@ assignments_tbl
 Cognitive Strategy: Use of academic planner to track weekly assignments.  
 
 
-
-
-#### Frequency of Strategy Use
+#### Frequency of Strategy Use (Plot 1)
 
 ```{r, include=FALSE}
 
-#head(strategy)
+head(strategy)
 
 
-#freq_plot <- ggplot(strategy, aes(session, freq)) +
- # geom_line() +
- # geom_point(size = 2) +
- # scale_x_continuous(limits = c(9, 13),
-                    # breaks = c(4, 5, 6, 7, 8, 9, 10, 11, 12, 13)) +
-  #theme_classic() +
- # theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
-  #labs(x = "Session",
-      # y = "Number of Assignments",
-       #title = "Weekly Number of Assignments Tracked in Planner") 
+freq_plot_1 <- ggplot(strategy, aes(session, freq)) +
+  geom_line() +
+  geom_point(size = 2) +
+  scale_x_continuous(limits = c(9, 13),
+                     breaks = c(9, 10, 11, 12, 13)) +
+  scale_y_continuous(limits = c(0, 20),
+                     breaks = c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20)) +
+  theme_classic() +
+  theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
+  labs(x = "Session",
+       y = "Number of Assignments",
+       title = "Number of Assignments Entered into Planner per Week") 
   
-#freq_plot
+freq_plot_1
 
 # consider adding a second plot measuring "number of days per week assignments written into planner"
 
+freq_plot_2 <- ggplot(strategy, aes(session, freq_2)) +
+  geom_line() +
+  geom_point(size = 2) +
+  scale_x_continuous(limits = c(9, 13),
+                     breaks = c(9, 10, 11, 12, 13)) +
+  scale_y_continuous(limits = c(0, 7),
+                     breaks = c(0, 1, 2, 3, 4, 5, 6, 7)) +
+  theme_classic() +
+  theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
+  labs(x = "Session",
+       y = "Days",
+       title = "Number of Days per Week Participant used Planner to Track Assignments") 
 
-#help_plot <- ggplot(strategy, aes(session, help)) +
-  #geom_line() +
- # geom_point(size = 2) +
- # scale_x_continuous(limits = c(9, 13),
-                     #breaks = c(9, 10, 11, 12, 13)) +
-  #scale_y_continuous(limits = c(0, 5),
-                     #breaks = c(1, 2, 3, 4, 5)) +
- # theme_classic() +
- # theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
- # labs(x = "Session",
-       #y = "Level of Helpfulness",
-       #title = "Perceived Helpfulness of Academic Planner",
-       #caption = "1 = Not Helpful at All\n 2 = Not Helpful\n 3 = Somewhat Helpful\n 4 = Helpful\n 5 = Very Helpful") 
+freq_plot_2
 
-#help_plot
+
+help_plot <- ggplot(strategy, aes(session, help)) +
+  geom_line() +
+  geom_point(size = 2) +
+  scale_x_continuous(limits = c(9, 13),
+                     breaks = c(9, 10, 11, 12, 13)) +
+  scale_y_continuous(limits = c(0, 5),
+                     breaks = c(1, 2, 3, 4, 5)) +
+  theme_classic() +
+  theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
+  labs(x = "Session",
+       y = "Level of Helpfulness",
+       title = "Perceived Helpfulness of Academic Planner",
+       caption = "1 = Not Helpful at All\n 2 = Not Helpful\n 3 = Somewhat Helpful\n 4 = Helpful\n 5 = Very Helpful") 
+
+help_plot
 
 ```
 
 ```{r, include=TRUE}
-#freq_plot
+freq_plot_1
+```
+
+#### Frequency of Strategy Use (Plot 2)
+
+```{r, include=TRUE}
+freq_plot_2
 ```
 
 #### Perceived Strategy Helpfulness
 
 ```{r, include=TRUE}
-#help_plot
+help_plot
 ```
