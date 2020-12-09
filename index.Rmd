@@ -941,13 +941,14 @@ freq_plot_1 <- ggplot(strategy, aes(session, freq)) +
   geom_point(size = 2) +
   scale_x_continuous(limits = c(9, 13),
                      breaks = c(9, 10, 11, 12, 13)) +
-  scale_y_continuous(limits = c(0, 20),
-                     breaks = c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20)) +
+  scale_y_continuous(limits = c(0, 100),
+                     breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                     labels = function(x) paste0(x, "%")) +
   theme_classic() +
   theme(plot.title = element_text(color = "black", face = "bold", hjust = 0.5)) +
   labs(x = "Session",
-       y = "Number of Assignments",
-       title = "Number of Assignments Entered into Planner per Week") 
+       y = "Percent",
+       title = "Percentage of Assignments Entered into Planner per Week") 
   
 freq_plot_1
 
