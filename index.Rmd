@@ -885,7 +885,10 @@ assignment_plot2 <- ggplot(assignments_tidy, aes(session, value)) +
 
 head(assignments)
 
-assignments_tbl <- assignments %>% 
+assignments_tbl_data <- assignments %>% 
+  select(1, 2, 3, 5)
+
+assignments_tbl <- assignments_tbl_data %>% 
   reactable(
     columns = list(
       session = colDef(name = "Session",
