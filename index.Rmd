@@ -89,7 +89,8 @@ head(assignments)
 strategy <- import(here("data", "GOZO_strategy.xlsx"),
                    setclass = "tbl_df")
 
-
+tarf <- import(here("data", "GOZO_TARF.xlsx"),
+                   setclass = "tbl_df")
 ```
 
 ## Demographic Information 
@@ -139,6 +140,27 @@ gas_tbl
 ```
 
 ### BRIEF-2 {.tabset .tabset-fade .tabset-pills}
+
+Self-report responses that guided treatment at time of pre-baseline data collection:
+
+  * Task Completion Scale
+  * Plan/Organize Scale
+  * Cognitive Regulation Index 
+  
+Elevated scores from the parent-report pre-baseline included: 
+
+  * Inhibit Scale
+  * Self-Monitor Scale 
+  * Behavior Regulation Index
+  * Shift Scale
+  * Emotional Control Scale
+  * Emotional Regulation Index
+  * Initiate Scale
+  * Working Memory Scale
+  * Plan/Organize Scale
+  * Cognitive Regulation Index
+  * Global Executive Composite 
+  
 
 ```{r, include=FALSE}
 head(brief_parent)
@@ -304,7 +326,17 @@ brief_self_2 %>%
                                     }
                                       ),
       `Post Treatment` = colDef(name = "Post Treatment",
-                                align = "center")),
+                                align = "center",
+                                style = function(value) {
+                                      if (value >= 65) {
+                                        color <- "#e00000"
+                                      } else if (value < 65) {
+                                        color <- "#008000"
+                                      } else {
+                                        color <- "#777"
+                                      } 
+                                       list(color = color, fontWeight = "bold")
+                                    })),
     pagination = FALSE,
     striped = TRUE,
     outlined = TRUE,
@@ -370,7 +402,7 @@ brief_color_tbl <- function(df) {
     width = 500)
 }
 
-#brief_color_tbl(brief_self_2)
+brief_color_tbl(brief_self_2)
 
 
 orange_pal <- function(x) rgb(colorRamp(c("#ffe4cc", "#ffb54d"))(x), maxColorValue = 255)
@@ -397,7 +429,12 @@ brief_color_tbl_2 <- function(df) {
                                     }
                                       ),
       `Post Treatment` = colDef(name = "Post Treatment",
-                                align = "center")),
+                                align = "center",
+                                style = function(value) {
+                                      normalized <- (value - min(brief_self_2$`Post Treatment`)) / (max(brief_self_2$`Post Treatment`) - min(brief_self_2$`Post Treatment`))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    })),
     pagination = FALSE,
     striped = TRUE,
     outlined = TRUE,
@@ -419,7 +456,7 @@ brief_self_plot
 #### BRIEF-2 Self-Report Table Version 1
 
 ```{r, include=TRUE, fig.height=8}
-#brief_color_tbl(brief_self_2)
+brief_color_tbl(brief_self_2)
 ```
 
 #### BRIEF-2 Self-Report Table Version 2
@@ -483,6 +520,15 @@ brief_parent %>%
 ```
 
 ### CLASS {.tabset .tabset-fade .tabset-pills}
+
+Self-report responses that guided treatment at time of pre-baseline data collection:
+
+  * Easily distracted during homework 
+  * Homework taking longer
+  
+Parent-report responses that guided treatment at time of pre-baseline data collection:
+
+  * Homework taking longer 
 
 ```{r, include=FALSE}
 head(class_self_1)
@@ -686,7 +732,7 @@ class_self_1_plot
 class_self_2_plot
 ```
 
-#### ClASS Self Table
+#### CLASS Self Table
 
 ```{r, include=TRUE, fig.height=8}
 class_tbl(class_self_all)
@@ -704,13 +750,21 @@ class_parent_1_plot
 class_parent_2_plot
 ```
 
-#### ClASS Parent Table
+#### CLASS Parent Table
 
 ```{r, include=TRUE, fig.height=8}
 class_tbl(class_parent_all)
 ```
 
 ### PCSS {.tabset .tabset-fade .tabset-pills}
+
+Pre-baseline symptom severity levels that guided treatment selection:
+
+  * Feeling "slow"
+  * Feeling "foggy"
+  * Difficulty concentrating
+  * Difficulty remembering
+  * Cognitive symptom cluster 
 
 ```{r, include=FALSE}
 head(pcss)
@@ -757,7 +811,12 @@ pcss_items_tbl <- pcss_items %>%
                                       list(background = color)
                                     }),
       `Post Treatment` = colDef(name = "Post Treatment",
-                                align = "center")),
+                                align = "center",
+                                style = function(value) {
+                                        normalized <- (value - min(pcss_items$`Post Treatment`)) / (max(pcss_items$`Post Treatment` - min(pcss_items$`Post Treatment`)))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    })),
     pagination = FALSE,
     striped = TRUE,
     outlined = TRUE,
@@ -787,7 +846,12 @@ pcss_cluster_tbl <- pcss_total_cluster %>%
                                       list(background = color)
                                     }),
       `Post Treatment` = colDef(name = "Post Treatment",
-                                align = "center")),
+                                align = "center",
+                                style = function(value) {
+                                        normalized <- (value - min(pcss_total_cluster$`Post Treatment`)) / (max(pcss_total_cluster$`Post Treatment` - min(pcss_total_cluster$`Post Treatment`)))
+                                      color <- orange_pal(normalized)
+                                      list(background = color)
+                                    })),
     pagination = FALSE,
     striped = TRUE,
     outlined = TRUE,
@@ -1036,3 +1100,34 @@ freq_plot_2
 ```{r, include=TRUE}
 help_plot
 ```
+
+
+## Treatment Implementation Measurements 
+
+### TARF 
+
+The TARF is used to measure social validity. 
+
+```{r, include=FALSE}
+head(tarf)
+
+tarf_tbl <- tarf %>% 
+  reactable(columns = list(
+    Question = colDef(align = "left"),
+    Response = colDef(align = "center")),
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    height = 500,
+    width = 600)
+```
+
+```{r, include=TRUE}
+tarf_tbl
+```
+
+### Treatment Compliance 
+
+Participant 3 did not cancel or reschedule any sessions. There was a 3-week break between sessions 12 and 13 due to the winter holiday break. 
